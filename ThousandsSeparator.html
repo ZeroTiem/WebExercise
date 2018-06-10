@@ -1,0 +1,80 @@
+<html>
+<header>
+    <style>
+        div[comma-value] {
+            position: relative;
+        }
+
+        div[comma-value]:before {
+            content: attr(comma-value);
+            position: absolute;
+            left: 0;
+        }
+
+        div[comma-value] input {
+            color: #fff;
+        }
+    </style>
+</header>
+
+<body>
+    <!-- <input type="number" id="demoinput" min="1" step="any" /> -->
+    <!-- <input type="number" id="demoinput" pattern="[0-9]+([,|.][0-9]+)?" name="my-num"/> -->
+    <div>
+        <!-- <input type="number" id="demoinput" name="my-num" /> -->
+        <input type="text" name="demoinput" id="demoinput" pattern="[0-9]+([,|.][0-9]+)?" name="my-num" />
+        <input type="text" name="demoinput" id="demoinput" pattern="[0-9]+([,|.][0-9]+)?" name="my-num" />
+    </div>
+    <!-- <input type="text" id="demoinput" /> -->
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    change();
+
+    function change() {
+        // add event listener to input number
+        // var el = document.getElementById("demoinput");
+        var els = document.getElementsByName("demoinput");
+        els.forEach(element => {
+            element.addEventListener('input', function (evt) {
+                var value = parseFloat(this.value.replace(/,/g, ''));;
+                this.value = addCommas(value);
+            });
+        });
+        // el.addEventListener('input', function (evt) {
+        //     var value = parseFloat(this.value.replace(/,/g, ''));;
+        //     this.value = addCommas(value);
+        // });
+    }
+
+    function addCommas(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
+    // parseFloat("1,234,567.89".replace(/,/g,''));
+
+    // const numberWithCommas = (x) => {
+    //     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // }
+
+
+
+    // const numberWithCommas = (x) => {
+    //     var parts = x.toString().split(".");
+    //     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //     return parts.join(".");
+    // }
+</script>
+
+</html>
+<!-- ReferenceSource -->
+<!-- https://code.i-harness.com/en/q/e98504 -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString -->
